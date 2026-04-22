@@ -2019,42 +2019,49 @@
                 <p class="form-subtitle">Fill in your details and we'll reach out within 24 hours.</p>
                 <form id="consultationForm" action="https://formspree.io/f/mlgopkwk" method="POST">
     <input type="hidden" name="_subject" value="NEW PATIENT"> 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" placeholder="John" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" placeholder="Doe" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" placeholder="john@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" placeholder="+1 (555) 000-0000">
-                    </div>
-                    <div class="form-group">
-                        <label>Area of Concern</label>
-                        <select>
-                            <option value="">Select your concern</option>
-                            <option>Receding Hairline</option>
-                            <option>Crown Thinning</option>
-                            <option>Overall Hair Loss</option>
-                            <option>Beard / Eyebrow Transplant</option>
-                            <option>Previous Transplant Repair</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Additional Notes</label>
-                        <textarea placeholder="Tell us about your goals..."></textarea>
-                    </div>
-                    <button type="submit" class="form-submit magnetic-btn">Request Consultation →</button>
-                    <p class="form-privacy">🔒 Your information is protected by 256-bit encryption</p>
-                </form>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="First Name" placeholder="John" required>
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="Last Name" placeholder="Doe" required>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" name="Email" placeholder="john@example.com" required>
+    </div>
+    
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" name="Phone" placeholder="+1 (555) 000-0000">
+    </div>
+    
+    <div class="form-group">
+        <label>Area of Concern</label>
+        <select name="Concern">
+            <option value="">Select your concern</option>
+            <option>Receding Hairline</option>
+            <option>Crown Thinning</option>
+            <option>Overall Hair Loss</option>
+            <option>Beard / Eyebrow Transplant</option>
+            <option>Previous Transplant Repair</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label>Additional Notes</label>
+        <textarea name="Message" placeholder="Tell us about your goals..."></textarea>
+    </div>
+    
+    <button type="submit" class="form-submit magnetic-btn">Request Consultation →</button>
+    <p class="form-privacy">🔒 Your information is protected by 256-bit encryption</p>
+</form>
+
             </div>
         </div>
     </section>
