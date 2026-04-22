@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeHair Clinic — Premium Hair Restoration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
+
+        :root {
+            --charcoal: #1a1a2e;
+            --charcoal-deep: #0f0f1a;
+            --charcoal-light: #252542;
+            --platinum: #e8e8f0;
+            --platinum-dim: #b8b8c8;
+            --cyan: #00d4ff;
+            --cyan-soft: #00b4d8;
+            --cyan-glow: rgba(0, 212, 255, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg-strong: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--charcoal-deep);
+            color: var(--platinum);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cyan);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease, background 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hover {
+            transform: scale(2.5);
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--cyan);
+        }
+
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--cyan);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--charcoal-deep);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--platinum);
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .preloader-logo span {
+            color: var(--cyan);
+        }
+
+        .preloader-bar {
+            width: 200px;
+            height: 2px;
+            background: var(--charcoal-light);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .preloader-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--cyan), var(--cyan-soft));
+            border-radius: 10px;
+            animation: loadBar 2s ease forwards 0.5s;
+        }
+
+        @keyframes loadBar {
+            to { width: 100%; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.5s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(15, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 50px;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-decoration: none;
+            color: var(--platinum);
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo span {
+            color: var(--cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--platinum-dim);
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cyan);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 10px 28px;
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan) !important;
+            border-radius: 30px;
+            font-size: 0.8rem !important;
+            letter-spacing: 2px;
+            transition: all 0.4s ease !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--cyan);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .nav-cta:hover {
+            color: var(--charcoal-deep) !important;
+        }
+
+        .nav-cta:hover::before {
+            left: 0;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 2px;
+            background: var(--platinum);
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(15, 15, 26, 0.97);
+            backdrop-filter: blur(30px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .mobile-menu-links a {
+            text-decoration: none;
+            color: var(--platinum);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, var(--charcoal-deep) 70%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 30px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--cyan);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--platinum-dim);
+            line-height: 1.8;
+            margin-bottom: 45px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .btn-primary {
+            padding: 16px 42px;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-soft));
+            color: var(--charcoal-deep);
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 16px 42px;
+            background: transparent;
+            color: var(--platinum);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .play-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+        }
+
+        /* Hero scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 3s forwards;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--platinum-dim);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background: var(--charcoal-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: var(--cyan);
+            animation: scrollDown 2s ease infinite;
+        }
+
+        @keyframes scrollDown {
+            0% { top: -50%; }
+            100% { top: 150%; }
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            padding: 60px 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--cyan);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--platinum-dim);
+        }
+
+        .stat-divider {
+            width: 30px;
+            height: 1px;
+            background: var(--cyan);
+            margin: 12px auto 0;
+            opacity: 0.5;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 120px 50px;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section-tag::before,
+        .section-tag::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--cyan);
+            opacity: 0.5;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .section-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            color: var(--platinum-dim);
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* The Science Section */
+        .science-section {
+            background: linear-gradient(180deg, var(--charcoal-deep) 0%, var(--charcoal) 50%, var(--charcoal-deep) 100%);
+        }
+
+        .science-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .science-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px 35px;
+            text-align: center;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .science-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .science-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+
+        .science-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        .science-card:hover .card-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            color: var(--platinum-dim);
+            line-height: 1.8;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.03);
+            line-height: 1;
+        }
+
+        /* Process Section */
+        .process-section {
+            background: var(--charcoal-deep);
+            overflow: hidden;
+        }
+
+        .process-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, var(--cyan), transparent);
+            opacity: 0.3;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .process-step:nth-child(even) {
+            flex-direction: row-reverse;
+            transform: translateX(50px);
+        }
+
+        .process-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .process-content {
+            flex: 1;
+            padding: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .process-content:hover {
+            border-color: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .process-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--charcoal-deep);
+            border: 2px solid var(--cyan);
+            border-radius: 50%;
+            margin: 0 30px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--cyan);
+            border-radius: 50%;
+        }
+
+        .process-spacer {
+            flex: 1;
+        }
+
+        .process-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--cyan);
+            opacity: 0.3;
+            margin-bottom: 10px;
+        }
+
+        .process-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .process-text {
+            font-size: 0.9rem;
+            color: var(--platinum-dim);
+            line-height: 1.8;
+        }
+
+        /* Transformation Gallery */
+        .gallery-section {
+            background: linear-gradient(180deg, var(--charcoal-deep) 0%, var(--charcoal) 100%);
+            overflow: hidden;
+        }
+
+        .gallery-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .gallery-card-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--charcoal-light), var(--charcoal));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 212, 255, 0.02) 2px,
+                rgba(0, 212, 255, 0.02) 4px
+            );
+        }
+
+        .gallery-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .gallery-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .gallery-placeholder-text {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--platinum-dim);
+            opacity: 0.5;
+        }
+
+        .gallery-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px 25px 25px;
+            background: linear-gradient(transparent, rgba(15, 15, 26, 0.95));
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-card:hover .gallery-card-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .gallery-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 5px;
+        }
+
+        .gallery-result {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        .gallery-card-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 0;
+            background: var(--cyan);
+            transition: height 0.5s ease;
+        }
+
+        .gallery-card:hover .gallery-card-line {
+            height: 100%;
+        }
+
+        .gallery-before-after {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .ba-tag {
+            padding: 5px 12px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            background: var(--charcoal);
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-cards {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 20px 0;
+        }
+
+        .testimonial-cards::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial-card {
+            min-width: 400px;
+            max-width: 400px;
+            padding: 45px 35px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            scroll-snap-align: start;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .testimonial-quote {
+            font-size: 3rem;
+            color: var(--cyan);
+            opacity: 0.3;
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--platinum);
+            margin-bottom: 25px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-soft));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--charcoal-deep);
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--platinum-dim);
+        }
+
+        .testimonial-stars {
+            color: var(--cyan);
+            letter-spacing: 3px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Elite Consultation */
+        .consultation-section {
+            background: linear-gradient(180deg, var(--charcoal) 0%, var(--charcoal-deep) 100%);
+            position: relative;
+        }
+
+        .consultation-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .consultation-info {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .consultation-info .section-tag {
+            justify-content: flex-start;
+        }
+
+        .consultation-info .section-tag::before {
+            display: none;
+        }
+
+        .consultation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .consultation-text {
+            font-size: 1rem;
+            color: var(--platinum-dim);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .consultation-features {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .consultation-features li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            color: var(--platinum-dim);
+        }
+
+        .consultation-features li .check {
+            color: var(--cyan);
+            font-size: 1.1rem;
+        }
+
+        .consultation-form-wrapper {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 50px 40px;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: var(--platinum-dim);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--platinum-dim);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--platinum);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .form-group select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: var(--charcoal);
+            color: var(--platinum);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-soft));
+            color: var(--charcoal-deep);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 10px;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .form-privacy {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: var(--platinum-dim);
+            opacity: 0.6;
+        }
+
+        /* Floating Elements */
+        .floating-dna {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.05), transparent);
+            pointer-events: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--charcoal-deep);
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 50px 40px;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand .nav-logo {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            color: var(--platinum-dim);
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--platinum-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            transform: translateY(-3px);
+        }
+
+        .footer-column h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--platinum);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: var(--platinum-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--cyan);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--platinum-dim);
+        }
+
+        .footer-bottom a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* Magnetic Button Effect */
+        .magnetic-btn {
+            transition: transform 0.3s ease;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Parallax glow orbs */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .glow-orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--cyan);
+            top: -200px;
+            right: -100px;
+        }
+
+        .glow-orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #6366f1;
+            bottom: -150px;
+            left: -100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 15px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .section {
+                padding: 80px 30px;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .science-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-timeline::before {
+                left: 20px;
+            }
+
+            .process-step,
+            .process-step:nth-child(even) {
+                flex-direction: column;
+                align-items: flex-start;
+                transform: translateX(0);
+                padding-left: 60px;
+                position: relative;
+            }
+
+            .process-dot {
+                position: absolute;
+                left: 10px;
+                top: 40px;
+                margin: 0;
+            }
+
+            .process-spacer {
+                display: none;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .consultation-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .consultation-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.05rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stats-bar {
+                padding: 40px 20px;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-header {
+                margin-bottom: 50px;
+            }
+
+            .science-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            .testimonial-card {
+                min-width: 300px;
+                max-width: 300px;
+            }
+
+            .consultation-title {
+                font-size: 1.8rem;
+            }
+
+            .consultation-form-wrapper {
+                padding: 30px 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer {
+                padding: 60px 20px 30px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .custom-cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            .mobile-menu-links a {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-badge {
+                font-size: 0.65rem;
+                letter-spacing: 2px;
+            }
+
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .preloader-logo {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .process-step,
+            .process-step:nth-child(even) {
+                padding-left: 50px;
+            }
+
+            .process-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">LUXE<span>HAIR</span></div>
+        <div class="preloader-bar">
+            <div class="preloader-bar-fill"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">LUXE<span>HAIR</span></a>
+        <ul class="nav-links">
+            <li><a href="#science">The Science</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#testimonials">Results</a></li>
+            <li><a href="#consultation" class="nav-cta magnetic-btn">Book Now</a></li>
+        </ul>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-menu-links">
+            <li><a href="#science" class="mobile-link">The Science</a></li>
+            <li><a href="#process" class="mobile-link">Process</a></li>
+            <li><a href="#gallery" class="mobile-link">Gallery</a></li>
+            <li><a href="#testimonials" class="mobile-link">Results</a></li>
+            <li><a href="#consultation" class="mobile-link">Book Consultation</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <canvas id="particleCanvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge" id="heroBadge">
+                <span class="hero-badge-dot"></span>
+                World-Class Hair Restoration
+            </div>
+            <h1 class="hero-title" id="heroTitle">
+                Where Science<br>Meets <span class="highlight">Confidence</span>
+            </h1>
+            <p class="hero-subtitle" id="heroSubtitle">
+                Experience the pinnacle of hair restoration with cutting-edge FUE technology, 
+                performed by globally recognized surgeons in a luxury clinical setting.
+            </p>
+            <div class="hero-buttons" id="heroButtons">
+                <a href="#consultation" class="btn-primary magnetic-btn">Schedule Consultation</a>
+                <a href="#gallery" class="btn-secondary magnetic-btn">
+                    <span class="play-icon">▶</span>
+                    View Transformations
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item reveal" data-delay="0">
+                <div class="stat-number" data-count="15000">0</div>
+                <div class="stat-label">Successful Procedures</div>
+                <div class="stat-divider"></div>
+            </div>
+            <div class="stat-item reveal" data-delay="100">
+                <div class="stat-number" data-count="98">0</div>
+                <div class="stat-label">% Success Rate</div>
+                <div class="stat-divider"></div>
+            </div>
+            <div class="stat-item reveal" data-delay="200">
+                <div class="stat-number" data-count="25">0</div>
+                <div class="stat-label">Years of Excellence</div>
+                <div class="stat-divider"></div>
+            </div>
+            <div class="stat-item reveal" data-delay="300">
+                <div class="stat-number" data-count="40">0</div>
+                <div class="stat-label">Countries Served</div>
+                <div class="stat-divider"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Science Section -->
+    <section class="section science-section" id="science">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="section-header">
+            <div class="section-tag reveal">The Science</div>
+            <h2 class="section-title reveal" data-delay="100">Advanced Technology.<br>Proven Results.</h2>
+            <p class="section-subtitle reveal" data-delay="200">
+                Our proprietary approach combines three revolutionary techniques to deliver 
+                unmatched density, natural direction, and permanent results.
+            </p>
+        </div>
+        <div class="science-grid">
+            <div class="science-card reveal" data-delay="0">
+                <div class="card-number">01</div>
+                <div class="card-icon">🔬</div>
+                <h3 class="card-title">Sapphire FUE</h3>
+                <p class="card-text">
+                    Ultra-precise sapphire blade extraction minimizes tissue damage, 
+                    accelerates healing, and ensures the highest graft survival rate of 98.5%.
+                </p>
+            </div>
+            <div class="science-card reveal" data-delay="150">
+                <div class="card-number">02</div>
+                <div class="card-icon">🧬</div>
+                <h3 class="card-title">DHI Implantation</h3>
+                <p class="card-text">
+                    Direct Hair Implantation using the Choi pen allows for precise angle 
+                    and depth control, creating a perfectly natural hairline.
+                </p>
+            </div>
+            <div class="science-card reveal" data-delay="300">
+                <div class="card-number">03</div>
+                <div class="card-icon">💎</div>
+                <h3 class="card-title">PRP Therapy</h3>
+                <p class="card-text">
+                    Platelet-Rich Plasma therapy stimulates dormant follicles and enhances 
+                    transplant success with your body's own regenerative growth factors.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="section process-section" id="process">
+        <div class="section-header">
+            <div class="section-tag reveal">The Journey</div>
+            <h2 class="section-title reveal" data-delay="100">Your Path to<br>Transformation</h2>
+            <p class="section-subtitle reveal" data-delay="200">
+                Every journey begins with a single step. Ours is a meticulously crafted, 
+                four-phase process designed around you.
+            </p>
+        </div>
+        <div class="process-timeline">
+            <div class="process-step reveal-left" data-delay="0">
+                <div class="process-content">
+                    <div class="process-number">01</div>
+                    <h3 class="process-title">Private Consultation</h3>
+                    <p class="process-text">
+                        Meet with our lead surgeon for a comprehensive scalp analysis using 
+                        AI-powered follicle mapping technology. Receive a personalized treatment 
+                        plan and realistic outcome projections.
+                    </p>
+                </div>
+                <div class="process-dot"></div>
+                <div class="process-spacer"></div>
+            </div>
+            <div class="process-step reveal-right" data-delay="150">
+                <div class="process-content">
+                    <div class="process-number">02</div>
+                    <h3 class="process-title">Custom Design</h3>
+                    <p class="process-text">
+                        Your hairline is artistically designed to complement your facial 
+                        structure, age, and aesthetic goals. Every graft placement is 
+                        pre-planned for maximum natural density.
+                    </p>
+                </div>
+                <div class="process-dot"></div>
+                <div class="process-spacer"></div>
+            </div>
+            <div class="process-step reveal-left" data-delay="300">
+                <div class="process-content">
+                    <div class="process-number">03</div>
+                    <h3 class="process-title">Precision Procedure</h3>
+                    <p class="process-text">
+                        In our state-of-the-art surgical suite, each follicle is individually 
+                        extracted and implanted with microscopic precision. Comfort is ensured 
+                        throughout with advanced pain management.
+                    </p>
+                </div>
+                <div class="process-dot"></div>
+                <div class="process-spacer"></div>
+            </div>
+            <div class="process-step reveal-right" data-delay="450">
+                <div class="process-content">
+                    <div class="process-number">04</div>
+                    <h3 class="process-title">Lifetime Care</h3>
+                    <p class="process-text">
+                        Your journey doesn't end at the clinic. Receive ongoing support with 
+                        PRP sessions, growth tracking, and direct access to your surgeon 
+                        for 12 months post-procedure.
+                    </p>
+                </div>
+                <div class="process-dot"></div>
+                <div class="process-spacer"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation Gallery -->
+    <section class="section gallery-section" id="gallery">
+        <div class="section-header">
+            <div class="section-tag reveal">Transformations</div>
+            <h2 class="section-title reveal" data-delay="100">Real Patients.<br>Real Confidence.</h2>
+            <p class="section-subtitle reveal" data-delay="200">
+                Every transformation tells a story of renewed confidence. Browse our 
+                curated gallery of verified patient results.
+            </p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-card reveal-scale" data-delay="0">
+                <div class="gallery-card-image">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-placeholder-icon">👤</div>
+                        <div class="gallery-placeholder-text">Patient Result #1</div>
+                    </div>
+                </div>
+                <div class="gallery-before-after">
+                    <span class="ba-tag">Before</span>
+                    <span class="ba-tag">After 12 Months</span>
+                </div>
+                <div class="gallery-card-line"></div>
+                <div class="gallery-card-overlay">
+                    <div class="gallery-label">3,500 Grafts — FUE</div>
+                    <div class="gallery-result">Complete Hairline Restoration</div>
+                </div>
+            </div>
+            <div class="gallery-card reveal-scale" data-delay="150">
+                <div class="gallery-card-image">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-placeholder-icon">👤</div>
+                        <div class="gallery-placeholder-text">Patient Result #2</div>
+                    </div>
+                </div>
+                <div class="gallery-before-after">
+                    <span class="ba-tag">Before</span>
+                    <span class="ba-tag">After 10 Months</span>
+                </div>
+                <div class="gallery-card-line"></div>
+                <div class="gallery-card-overlay">
+                    <div class="gallery-label">4,200 Grafts — DHI</div>
+                    <div class="gallery-result">Crown & Temple Restoration</div>
+                </div>
+            </div>
+            <div class="gallery-card reveal-scale" data-delay="300">
+                <div class="gallery-card-image">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-placeholder-icon">👤</div>
+                        <div class="gallery-placeholder-text">Patient Result #3</div>
+                    </div>
+                </div>
+                <div class="gallery-before-after">
+                    <span class="ba-tag">Before</span>
+                    <span class="ba-tag">After 14 Months</span>
+                </div>
+                <div class="gallery-card-line"></div>
+                <div class="gallery-card-overlay">
+                    <div class="gallery-label">5,000 Grafts — Sapphire FUE</div>
+                    <div class="gallery-result">Full Density Achievement</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials-section" id="testimonials">
+        <div class="section-header">
+            <div class="section-tag reveal">Client Stories</div>
+            <h2 class="section-title reveal" data-delay="100">Voices of<br>Transformation</h2>
+            <p class="section-subtitle reveal" data-delay="200">
+                Hear directly from those who have experienced the LuxeHair difference.
+            </p>
+        </div>
+        <div class="testimonials-track">
+            <div class="testimonial-cards" id="testimonialTrack">
+                <div class="testimonial-card reveal" data-delay="0">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">
+                        The level of care and precision was extraordinary. From the initial consultation 
+                        to the final result, every step exceeded my expectations. I wish I had done 
+                        this years ago.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JM</div>
+                        <div>
+                            <div class="testimonial-name">James Mitchell</div>
+                            <div class="testimonial-role">CEO, London</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                </div>
+                <div class="testimonial-card reveal" data-delay="150">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">
+                        As a public figure, discretion and natural results were paramount. LuxeHair 
+                        delivered on both. Nobody can tell it's not my original hairline — it's that 
+                        perfect.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AR</div>
+                        <div>
+                            <div class="testimonial-name">Alexander Ross</div>
+                            <div class="testimonial-role">Actor, Los Angeles</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                </div>
+                <div class="testimonial-card reveal" data-delay="300">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">
+                        The team's expertise is unmatched. They took the time to understand exactly 
+                        what I wanted and created a result that looks completely natural. My confidence 
+                        has soared.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SK</div>
+                        <div>
+                            <div class="testimonial-name">Sarah Kim</div>
+                            <div class="testimonial-role">Executive, Dubai</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                </div>
+                <div class="testimonial-card reveal" data-delay="450">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">
+                        Flying across the world for this procedure was the best decision I've ever made. 
+                        The facility is stunning, the team is world-class, and my results speak for 
+                        themselves.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DL</div>
+                        <div>
+                            <div class="testimonial-name">David Laurent</div>
+                            <div class="testimonial-role">Architect, Paris</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Elite Consultation -->
+    <section class="section consultation-section" id="consultation">
+        <div class="glow-orb glow-orb-1" style="top: auto; bottom: -200px; right: -200px;"></div>
+        <div class="consultation-container">
+            <div class="consultation-info reveal-left">
+                <div class="section-tag">Elite Consultation</div>
+                <h2 class="consultation-title" style="opacity:1; transform:none;">Begin Your<br>Transformation <span style="color: var(--cyan);">Today</span></h2>
+                <p class="consultation-text">
+                    Take the first step toward renewed confidence with a private, no-obligation 
+                    consultation. Our team will create a personalized restoration plan tailored 
+                    exclusively to your goals.
+                </p>
+                <ul class="consultation-features">
+                    <li>
+                        <span class="check">✦</span>
+                        Complimentary AI-powered scalp analysis
+                    </li>
+                    <li>
+                        <span class="check">✦</span>
+                        Personalized treatment plan & cost estimate
+                    </li>
+                    <li>
+                        <span class="check">✦</span>
+                        Direct consultation with lead surgeon
+                    </li>
+                    <li>
+                        <span class="check">✦</span>
+                        Virtual consultation available worldwide
+                    </li>
+                    <li>
+                        <span class="check">✦</span>
+                        Flexible financing options
+                    </li>
+                </ul>
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--cyan); font-size: 1.3rem;">📞</span>
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--platinum-dim); letter-spacing: 1px; text-transform: uppercase;">Call Us</div>
+                            <div style="font-weight: 500;">+1 (800) LUXE-HAIR</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--cyan); font-size: 1.3rem;">📧</span>
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--platinum-dim); letter-spacing: 1px; text-transform: uppercase;">Email</div>
+                            <div style="font-weight: 500;">consult@luxehair.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="consultation-form-wrapper reveal-right">
+                <h3 class="form-title">Request Your Consultation</h3>
+                <p class="form-subtitle">Fill in your details and we'll reach out within 24 hours.</p>
+                <form id="consultationForm" onsubmit="return handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+1 (555) 000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>Area of Concern</label>
+                        <select>
+                            <option value="">Select your concern</option>
+                            <option>Receding Hairline</option>
+                            <option>Crown Thinning</option>
+                            <option>Overall Hair Loss</option>
+                            <option>Beard / Eyebrow Transplant</option>
+                            <option>Previous Transplant Repair</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea placeholder="Tell us about your goals..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit magnetic-btn">Request Consultation →</button>
+                    <p class="form-privacy">🔒 Your information is protected by 256-bit encryption</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo">LUXE<span>HAIR</span></a>
+                <p>
+                    The world's premier hair restoration clinic, combining advanced medical 
+                    science with artistic precision to deliver transformative results that 
+                    last a lifetime.
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Twitter">TW</a>
+                    <a href="#" aria-label="YouTube">YT</a>
+                    <a href="#" aria-label="LinkedIn">LI</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Procedures</h4>
+                <ul>
+                    <li><a href="#">Sapphire FUE</a></li>
+                    <li><a href="#">DHI Transplant</a></li>
+                    <li><a href="#">PRP Therapy</a></li>
+                    <li><a href="#">Beard Transplant</a></li>
+                    <li><a href="#">Eyebrow Restoration</a></li>
+                    <li><a href="#">Hair Loss Treatment</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Clinic</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Surgeons</a></li>
+                    <li><a href="#">Technology</a></li>
+                    <li><a href="#">Virtual Tour</a></li>
+                    <li><a href="#">Certifications</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Patient Guide</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Financing</a></li>
+                    <li><a href="#">Travel Packages</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 LuxeHair Clinic. All rights reserved.</span>
+            <span>
+                <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Cookie Settings</a>
+            </span>
+        </div>
+    </footer>
+
+    <script>
+        // =============================================
+        // PRELOADER
+        // =============================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+                animateHero();
+            }, 2800);
+        });
+
+        // =============================================
+        // CUSTOM CURSOR
+        // =============================================
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursorDot');
+        let cursorX = 0, cursorY = 0;
+        let dotX = 0, dotY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+        });
+
+        function animateCursor() {
+            dotX += (cursorX - dotX) * 0.15;
+            dotY += (cursorY - dotY) * 0.15;
+
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            cursorDot.style.left = dotX - 2.5 + 'px';
+            cursorDot.style.top = dotY - 2.5 + 'px';
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effect on interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .science-card, .gallery-card, .testimonial-card, input, select, textarea');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // =============================================
+        // PARTICLE CANVAS - 3D Wave Background
+        // =============================================
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let mouseX = 0, mouseY = 0;
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.z = Math.random() * 1000;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.speedZ = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.phase = Math.random() * Math.PI * 2;
+                this.amplitude = Math.random() * 30 + 10;
+                this.frequency = Math.random() * 0.02 + 0.005;
+            }
+
+            update(time) {
+                // Wave motion
+                this.x = this.baseX + Math.sin(time * this.frequency + this.phase) * this.amplitude;
+                this.y = this.baseY + Math.cos(time * this.frequency * 0.7 + this.phase) * this.amplitude * 0.5;
+
+                // Mouse interaction
+                this.x += mouseX * 30 * (this.z / 1000);
+                this.y += mouseY * 20 * (this.z / 1000);
+
+                // Depth movement
+                this.z -= this.speedZ;
+                if (this.z <= 0) {
+                    this.z = 1000;
+                    this.baseX = Math.random() * canvas.width;
+                    this.baseY = Math.random() * canvas.height;
+                }
+
+                // Slow drift
+                this.baseX += this.speedX;
+                this.baseY += this.speedY;
+
+                if (this.baseX < -50) this.baseX = canvas.width + 50;
+                if (this.baseX > canvas.width + 50) this.baseX = -50;
+                if (this.baseY < -50) this.baseY = canvas.height + 50;
+                if (this.baseY > canvas.height + 50) this.baseY = -50;
+            }
+
+            draw() {
+                const scale = 1000 / (1000 + this.z);
+                const screenX = this.x * scale + (canvas.width * (1 - scale)) / 2;
+                const screenY = this.y * scale + (canvas.height * (1 - scale)) / 2;
+                const screenSize = this.size * scale;
+                const alpha = this.opacity * scale;
+
+                ctx.beginPath();
+                ctx.arc(screenX, screenY, screenSize, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 212, 255, ${alpha})`;
+                ctx.fill();
+
+                // Glow
+                ctx.beginPath();
+                ctx.arc(screenX, screenY, screenSize * 3, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 212, 255, ${alpha * 0.1})`;
+                ctx.fill();
+            }
+        }
+
+        // Create particles
+        const particleCount = window.innerWidth < 768 ? 80 : 200;
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Draw connections
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        const alpha = (1 - dist / 120) * 0.08;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        let time = 0;
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            time += 1;
+
+            particles.forEach(p => {
+                p.update(time);
+                p.draw();
+            });
+
+            if (window.innerWidth > 768) {
+                drawConnections();
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // =============================================
+        // HERO ANIMATION
+        // =============================================
+        function animateHero() {
+            const badge = document.getElementById('heroBadge');
+            const title = document.getElementById('heroTitle');
+            const subtitle = document.getElementById('heroSubtitle');
+            const buttons = document.getElementById('heroButtons');
+
+            setTimeout(() => {
+                badge.style.transition = 'all 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                badge.style.opacity = '1';
+                badge.style.transform = 'translateY(0)';
+            }, 200);
+
+            setTimeout(() => {
+                title.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                title.style.opacity = '1';
+                title.style.transform = 'translateY(0)';
+            }, 500);
+
+            setTimeout(() => {
+                subtitle.style.transition = 'all 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                subtitle.style.opacity = '1';
+                subtitle.style.transform = 'translateY(0)';
+            }, 900);
+
+            setTimeout(() => {
+                buttons.style.transition = 'all 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                buttons.style.opacity = '1';
+                buttons.style.transform = 'translateY(0)';
+            }, 1200);
+        }
+
+        // =============================================
+        // SCROLL REVEAL ANIMATIONS
+        // =============================================
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            const windowHeight = window.innerHeight;
+
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const revealPoint = windowHeight - 100;
+
+                if (top < revealPoint) {
+                    const delay = el.getAttribute('data-delay') || 0;
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, parseInt(delay));
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+
+        // =============================================
+        // NAVBAR SCROLL EFFECT
+        // =============================================
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // =============================================
+        // MOBILE MENU
+        // =============================================
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // =============================================
+        // COUNTER ANIMATION
+        // =============================================
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000;
+                const startTime = Date.now();
+                const startValue = 0;
+
+                function updateCounter() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Ease out cubic
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(startValue + (target - startValue) * eased);
+
+                    if (target >= 1000) {
+                        counter.textContent = current.toLocaleString() + '+';
+                    } else {
+                        counter.textContent = current + (target === 98 ? '%' : '+');
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                // Intersection observer
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(counter);
+            });
+        }
+        animateCounters();
+
+        // =============================================
+        // MAGNETIC BUTTON EFFECT
+        // =============================================
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // =============================================
+        // SMOOTH SCROLL
+        // =============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // =============================================
+        // FORM HANDLING
+        // =============================================
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.form-submit');
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Request Sent!';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                e.target.reset();
+            }, 3000);
+
+            return false;
+        }
+
+        // =============================================
+        // PARALLAX GLOW ORBS ON SCROLL
+        // =============================================
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            document.querySelectorAll('.glow-orb').forEach((orb, i) => {
+                const speed = (i + 1) * 0.05;
+                orb.style.transform = `translateY(${scrollY * speed}px)`;
+            });
+        });
+
+        // =============================================
+        // GALLERY CARD TILT EFFECT
+        // =============================================
+        document.querySelectorAll('.gallery-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) scale(1)';
+                card.style.transition = 'transform 0.5s ease';
+            });
+
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'transform 0.1s ease';
+            });
+        });
+
+        // =============================================
+        // SCIENCE CARD LIGHT TRAIL
+        // =============================================
+        document.querySelectorAll('.science-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0,212,255,0.08), var(--glass-bg))`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'var(--glass-bg)';
+            });
+        });
+
+        // =============================================
+        // TESTIMONIAL AUTO-SCROLL
+        // =============================================
+        const track = document.getElementById('testimonialTrack');
+        let isAutoScrolling = true;
+        let autoScrollInterval;
+
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                if (isAutoScrolling && track) {
+                    track.scrollLeft += 1;
+                    if (track.scrollLeft >= track.scrollWidth - track.clientWidth) {
+                        track.scrollLeft = 0;
+                    }
+                }
+            }, 30);
+        }
+
+        track.addEventListener('mouseenter', () => isAutoScrolling = false);
+        track.addEventListener('mouseleave', () => isAutoScrolling = true);
+        track.addEventListener('touchstart', () => isAutoScrolling = false);
+        track.addEventListener('touchend', () => {
+            setTimeout(() => isAutoScrolling = true, 3000);
+        });
+
+        startAutoScroll();
+
+        // =============================================
+        // TEXT SPLIT & ANIMATE UTILITY
+        // =============================================
+        function typeWriterEffect(element, text, speed = 50) {
+            let i = 0;
+            element.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // =============================================
+        // RESIZE HANDLER FOR PARTICLES
+        // =============================================
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resizeCanvas();
+                // Re-distribute particles
+                particles.forEach(p => {
+                    p.baseX = Math.random() * canvas.width;
+                    p.baseY = Math.random() * canvas.height;
+                });
+            }, 250);
+        });
+    </script>
+</body>
+</html>
